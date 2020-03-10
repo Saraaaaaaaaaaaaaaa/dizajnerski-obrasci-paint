@@ -5,28 +5,34 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import main.controller.CustomPaintComponent;
 import main.controller.DrawingShapeSelector;
 
 public class TopToolBar extends JToolBar{
 
+	
 	private static final long serialVersionUID = 1L;
-	public TopToolBar(int frameWidth) {
+	private DrawingShapeSelector shapeSelector ;
+	public TopToolBar(int frameWidth, CustomPaintComponent paintComponent) {
 		
-		 setSize(new Dimension(frameWidth,  30)); //koju sirinu uzima?
-		
-		    addButtonToToolbar("Tacka");
-		    addButtonToToolbar("Linija");
-		    addButtonToToolbar("Trougao");
+		shapeSelector = new DrawingShapeSelector(paintComponent);
+		 setSize(new Dimension(frameWidth,  30)); 
+		 	addButtonToToolbar("Select");
+		 	addButtonToToolbar("Scale");
+		 	
+		    addButtonToToolbar("Point");
+		    addButtonToToolbar("Line");
+		    addButtonToToolbar("Triangle");
 		    addButtonToToolbar("Kvadrat");
 		    addButtonToToolbar("Pravougaonik");
 		    addButtonToToolbar("Krug");
 		 
 	}
-	private void addButtonToToolbar(String buttonText) { //zasto je private?
+	
+	private void addButtonToToolbar(String buttonText) { 
 		
 		JButton button = new JButton(buttonText);
-		button.addActionListener(new DrawingShapeSelector());
+		button.addActionListener(shapeSelector);
 		add(button);
 	}
-
 }

@@ -1,13 +1,18 @@
 package main.model;
 
-public class Point extends Shape{
+public class Point {
 
 	private int x;
 	private int y;
 	
+	public Point() {}
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	public Point(Point a) {
+		this.x = a.getX();
+		this.y = a.getY();
 	}
 	public int getX() {
 		return x;
@@ -20,7 +25,5 @@ public class Point extends Shape{
 	}
 	public void setY(int y) {
 		this.y = y;
-	}
-	
-	
+	}	
 }
