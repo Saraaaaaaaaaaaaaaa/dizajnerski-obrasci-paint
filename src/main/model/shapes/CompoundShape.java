@@ -1,4 +1,4 @@
-package patterns;
+package main.model.shapes;
 
 
 import java.awt.*;
@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CompoundShape extends BaseShape {
+import main.model.ShapeInderface;
+
+public class CompoundShape extends Shape {
     private List<ShapeInderface> children = new ArrayList<>();
 
     public CompoundShape(ShapeInderface... components) {

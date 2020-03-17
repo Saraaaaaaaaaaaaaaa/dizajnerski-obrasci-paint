@@ -1,4 +1,7 @@
-package patterns;
+package main.controller;
+
+import main.model.Editor;
+import main.model.ShapeInderface;
 
 public class MoveCommand implements Command {
     private Editor editor;
@@ -17,13 +20,13 @@ public class MoveCommand implements Command {
     public void start(int x, int y) {
         startX = x;
         startY = y;
-        for (ShapeInderface child : editor.getShapes().getSelected()) {
+        for (ShapeInderface child : editor.getSelected()) {
             child.drag();
         }
     }
 
     public void move(int x, int y) {
-        for (ShapeInderface child : editor.getShapes().getSelected()) {
+        for (ShapeInderface child : editor.getSelected()) {
             child.moveTo(x - startX, y - startY);
         }
     }
@@ -31,14 +34,14 @@ public class MoveCommand implements Command {
     public void stop(int x, int y) {
         endX = x;
         endY = y;
-        for (ShapeInderface child : editor.getShapes().getSelected()) {
+        for (ShapeInderface child : editor.getSelected()) {
             child.drop();
         }
     }
 
     @Override
     public void execute() {
-        for (ShapeInderface child : editor.getShapes().getSelected()) {
+        for (ShapeInderface child : editor.getSelected()) {
             child.moveBy(endX - startX, endY - startY);
         }
     }

@@ -23,12 +23,20 @@ public class TopToolBar extends JToolBar{
 		    addButtonToToolbar("Point");
 		    addButtonToToolbar("Line");
 		    addButtonToToolbar("Triangle");
-		    addButtonToToolbar("Kvadrat");
-		    addButtonToToolbar("Pravougaonik");
-		    addButtonToToolbar("Krug");
+		    addButtonToToolbar("Square");
+		    addButtonToToolbar("Rectangle");
+		    addButtonToToolbar("Circle");
+		    
+		    
 		 
 	}
 	
+	private void addColorPicker(ColorPicker picker) {
+		
+		add(picker);
+		
+	}
+
 	private void addButtonToToolbar(String buttonText) { 
 		
 		JButton button = new JButton(buttonText);

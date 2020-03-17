@@ -1,6 +1,6 @@
-package patterns;
+package main.controller;
 
-
+import main.model.Editor;
 
 public class Memento {
     private String backup;
@@ -8,7 +8,7 @@ public class Memento {
 
     public Memento(Editor editor) {
         this.editor = editor;
-  
+        this.backup = editor.backup();
     }
 
     public void restore() {

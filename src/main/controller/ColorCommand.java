@@ -1,7 +1,10 @@
-package patterns;
+package main.controller;
 
 
 import java.awt.*;
+
+import main.model.Editor;
+import main.model.ShapeInderface;
 
 public class ColorCommand implements Command {
     private Editor editor;
@@ -19,7 +22,7 @@ public class ColorCommand implements Command {
 
     @Override
     public void execute() {
-        for (ShapeInderface child : editor.getShapes().getSelected()) {
+        for (ShapeInderface child : editor.getSelected()) {
             child.setColor(color);
         }
     }

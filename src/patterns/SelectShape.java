@@ -20,7 +20,11 @@ import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
 class Canvas extends java.awt.Canvas {
-    private Editor editor;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Editor editor;
     private JFrame frame;
     private static final int PADDING = 10;
     private Boolean resizeShapeState = false;
@@ -75,6 +79,7 @@ class Canvas extends java.awt.Canvas {
 	}
 	private void setReadyToScaleShape(boolean b) {
 		resizeShapeState = b;
+		System.out.println(" State changed to: " + b);
 		
 	}
     private void attachMouseListeners() {
@@ -84,7 +89,7 @@ class Canvas extends java.awt.Canvas {
                 if (e.getButton() != MouseEvent.BUTTON3) {
                     return;
                 }
-                Shape target = editor.getShapes().getChildAt(e.getX(), e.getY());
+                ShapeInderface target = editor.getShapes().getChildAt(e.getX(), e.getY());
                 if (target != null) {
                     editor.execute(new ColorCommand(editor, new Color((int) (Math.random() * 0x1000000))));
                     repaint();
@@ -100,7 +105,7 @@ class Canvas extends java.awt.Canvas {
                     return;
                 }
 
-                Shape target = editor.getShapes().getChildAt(e.getX(), e.getY());
+                ShapeInderface target = editor.getShapes().getChildAt(e.getX(), e.getY());
                 boolean ctrl = (e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK;
                
                 if (target == null) {
@@ -128,6 +133,10 @@ class Canvas extends java.awt.Canvas {
                 }
                 repaint();
             }
+        	@Override
+            public void mouseReleased(MouseEvent e) {
+	            setReadyToScaleShape(false);	        
+        	}
 
 		
         };
@@ -142,6 +151,7 @@ class Canvas extends java.awt.Canvas {
                 if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != MouseEvent.BUTTON1_DOWN_MASK) {
                     return;
                 }
+               
                 if( getReadyToScaleShape() == true) {
                 	if( resizeCommand == null) {
                 		resizeCommand = new ResizeCommand(editor);
@@ -166,8 +176,8 @@ class Canvas extends java.awt.Canvas {
                     return;
                 }
                 moveCommand.stop(e.getX(), e.getY());
-                setReadyToScaleShape(false);
-                System.out.println(getReadyToScaleShape());
+           
+                
                 editor.execute(moveCommand);
                 this.moveCommand = null;
                 this.resizeCommand = null;

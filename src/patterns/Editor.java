@@ -1,6 +1,5 @@
 package patterns;
 
-
 import javax.swing.*;
 import java.io.*;
 import java.util.Base64;
@@ -15,7 +14,7 @@ public class Editor extends JComponent {
         history = new History();
     }
 
-    public void loadShapes(Shape... shapes) {
+    public void loadShapes(ShapeInderface... shapes) {
         allShapes.clear();
         allShapes.add(shapes);
         canvas.refresh();

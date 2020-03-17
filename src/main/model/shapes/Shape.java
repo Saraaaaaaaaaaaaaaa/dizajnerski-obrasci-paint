@@ -1,8 +1,13 @@
-package patterns;
+package main.model.shapes;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-public abstract class BaseShape implements ShapeInderface {
+import main.model.ShapeInderface;
+
+public class Shape implements ShapeInderface {
     /**
 	 * 
 	 */
@@ -12,7 +17,7 @@ public abstract class BaseShape implements ShapeInderface {
     private Color color;
     private boolean selected = false;
 
-    BaseShape(int x, int y, Color color) {
+    Shape(int x, int y, Color color) {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -83,6 +88,7 @@ public abstract class BaseShape implements ShapeInderface {
 
     @Override
     public boolean isInsideBounds(int x, int y) {
+    	
         return x > getX() && x < (getX() + getWidth()) &&
                 y > getY() && y < (getY() + getHeight());
     }
@@ -121,10 +127,29 @@ public abstract class BaseShape implements ShapeInderface {
                 BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_MITER,
                 2.0f, dash1, 0.0f));
+       
+        
+    }
+    void enableSelectionStyleDot(Graphics graphics) {
+        graphics.setColor(Color.DARK_GRAY);
+
+        Graphics2D g2 = (Graphics2D) graphics;
+        float dash1[] = {2.0f};
+        g2.setStroke(new BasicStroke(2.0f));
+        
+    }
+    void enableSelectionShapeStyle(Graphics graphics) {
+        graphics.setColor(Color.RED);
+
+        Graphics2D g2 = (Graphics2D) graphics;
+        float dash1[] = {2.0f};
+        g2.setStroke(new BasicStroke(2.0f));
+       
+        
     }
 
     void disableSelectionStyle(Graphics graphics) {
-        graphics.setColor(color);
+        graphics.setColor(Color.DARK_GRAY);
         Graphics2D g2 = (Graphics2D) graphics;
         g2.setStroke(new BasicStroke());
     }
@@ -133,11 +158,23 @@ public abstract class BaseShape implements ShapeInderface {
     public void paint(Graphics graphics) {
         if (isSelected()) {
             enableSelectionStyle(graphics);
-        }
-        else {
+           /* graphics.drawRect(getX() - 1, getY() - 1, getWidth() + 1, getHeight() + 1);
+            enableSelectionStyleDot(graphics);
+            graphics.drawRect(getX()-3, getY()-3, 6, 6);
+            graphics.drawRect(getX() + getWidth()-3, getY()-3, 6, 6);
+            graphics.drawRect(getX()-3, getY()+getHeight()-3, 6, 6);
+            graphics.drawRect(getX()+getWidth()-3, getY()+getHeight()-3, 6, 6);*/
+            enableSelectionShapeStyle(graphics);
+        }else {
             disableSelectionStyle(graphics);
         }
+        
 
-        // ...
     }
+
+	@Override
+	public void scaleTo(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -15,8 +15,7 @@ public class DrawingShapeSelector implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		JButton clicked = (JButton)e.getSource();			
-		System.out.println("Kliknuto je dugme: " + clicked.getText());
+		JButton clicked = (JButton)e.getSource();		
 		selectedShape = clicked.getText().toUpperCase();	
 		painter.setSelectedShape( selectedShape);
 		

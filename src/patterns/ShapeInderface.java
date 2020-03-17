@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public interface Shape extends Serializable {
+public interface ShapeInderface extends Serializable {
     int getX();
     int getY();
  
