@@ -3,24 +3,19 @@ package main.controller;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-import java.util.Currency;
 
 import main.model.Editor;
 import main.model.ShapeInderface;
 import main.model.shapes.Circle;
-import main.model.shapes.Line;
 import main.model.shapes.Point;
-import main.model.shapes.Rectangle;
 import main.model.shapes.Shape;
-import main.model.shapes.Triangle;
 import main.view.ColorPicker;
+import main.view.ContextMenu;
 
 public class CustomPaintComponent extends Component {
 
@@ -74,7 +69,7 @@ public class CustomPaintComponent extends Component {
 					int b = secondPoint.getY() - firstPoint.getY();
 
 					int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-					editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,new Color(0, true)));
+					editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,Color.gray));
 					break;
 				}
 
@@ -106,7 +101,7 @@ public class CustomPaintComponent extends Component {
 						int b = secondPoint.getY() - firstPoint.getY();
 
 						int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-						pivotShape = new Circle(firstPoint.getX(), firstPoint.getY(), radius, new Color(0, true));
+						pivotShape = new Circle(firstPoint.getX(), firstPoint.getY(), radius, Color.WHITE);
 						break;
 
 					}
@@ -153,12 +148,19 @@ public class CustomPaintComponent extends Component {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
-				ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
+			/*	ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
 				if (target != null) {
 					editor.execute(new ColorCommand(editor, colorPicker.getSelectedColor().getColor()));
 					repaint();
 				}
+			}*/
+			ContextMenu menu = new ContextMenu();
+			 
+			menu.show(e.getComponent(), e.getX(), e.getY());
+			menu.addSource(CustomPaintComponent.this);
+			
 			}
+				
 		};
 		addMouseListener(colorizer);
 
@@ -265,6 +267,9 @@ public class CustomPaintComponent extends Component {
 	void draw(Shape shape, Graphics g) {
 
 		shape.paint(g);
+	}
+	public Editor getEditor() {
+		return editor;
 	}
 
 }

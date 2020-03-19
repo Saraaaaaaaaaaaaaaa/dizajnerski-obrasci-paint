@@ -3,7 +3,7 @@ package main.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+//import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
 import main.controller.CustomPaintComponent;
 import main.model.Editor;

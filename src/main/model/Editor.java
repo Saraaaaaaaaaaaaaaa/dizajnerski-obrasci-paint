@@ -38,7 +38,6 @@ public class Editor extends JComponent {
     public ShapeInderface getChildAt(int x, int y) {
 		for(Shape shape: allShapes) {
 			if(shape.isInsideBounds(x, y)) {
-				System.out.println(shape);
 				return shape;
 			}
 		}
@@ -104,6 +103,14 @@ public class Editor extends JComponent {
             System.out.print("IOException occurred.");
         }
     }
+
+	public void bringToFront(Shape target) {
+		if( target != null) {
+			allShapes.remove(target);
+			allShapes.add(target);
+		}
+		
+	}
 
 	
 
