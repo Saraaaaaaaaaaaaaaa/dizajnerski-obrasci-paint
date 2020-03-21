@@ -21,7 +21,7 @@ public class ContextMenu  extends JPopupMenu{
 	Integer y = null;
 	CustomPaintComponent source;
 	public ContextMenu() {
-		bringToFront = new JMenuItem(new AbstractAction("Bring to front") {
+		bringToFront = new JMenuItem(new AbstractAction(" Bring to front") {
 		    public void actionPerformed(ActionEvent e) {
 		    	if( x != null && y != null ) {
 		    		Shape target =(Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
@@ -30,14 +30,69 @@ public class ContextMenu  extends JPopupMenu{
 		    	}
 		    }
 		});
-		bringToBack = new JMenuItem(" Bring to back");
-		bringFront = new JMenuItem(" Bring front");
-		bringBack = new JMenuItem(" Bring back");
-		
+		bringToBack = new JMenuItem(new AbstractAction(" Bring to back") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if( x != null && y != null ) {
+		    		Shape target =(Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
+		    		source.getEditor().bringToBack(target);
+		    		source.repaint();
+		    	}
+				
+			}
+		});
+		bringFront = new JMenuItem(new AbstractAction(" Bring front") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if( x != null && y != null ) {
+		    		Shape target = (Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
+		    		source.getEditor().bringFront(target);
+		    		source.repaint();
+		    	}
+				
+			}
+		});
+		bringBack = new JMenuItem(new AbstractAction(" Bring back") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if( x != null && y != null ) {
+		    		Shape target = (Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
+		    		source.getEditor().bringBack(target);
+		    		source.repaint();
+		    	}
+				
+			}
+		});
+
 		add(bringToFront);
 		add(bringToBack);
 		add(bringFront);
 		add(bringBack);
+	}
+	private void validateMenuItemAvailability(int shapePosition) {
+	/*	if(source.getEditor().getShapes().size() == 1) {
+			bringToFront.setEnabled(false);
+			bringToBack.setEnabled(false);
+		//	bringFront.setEnabled(false);
+			//bringBack.setEnabled(false);
+		}else {
+			bringFront.setEnabled(true);
+			bringBack.setEnabled(true);
+		}*/
+		System.out.println(shapePosition);
+		if(source.getEditor().getShapes().size()-1 == shapePosition)
+			bringFront.setEnabled(false);	
+		else
+			bringFront.setEnabled(true);
+		if(0 == shapePosition)
+			bringBack.setEnabled(false);
+		else
+			bringBack.setEnabled(true);
+
+		
 	}
 	@Override
 	public void show(Component arg0, int x, int y) {
@@ -45,6 +100,14 @@ public class ContextMenu  extends JPopupMenu{
 		super.show(arg0, x, y);
 		this.x = x;
 		this.y = y;
+		Shape target = (Shape) source.getEditor().getChildAt(x,y);
+		int position = source.getEditor().getShapes().indexOf(target);
+		if(target != null)
+			validateMenuItemAvailability(position);
+		else {
+			bringToFront.setEnabled(false);
+			bringToBack.setEnabled(false);
+		}
 	}
 	public void addSource(CustomPaintComponent source) {
 		this.source = source;	

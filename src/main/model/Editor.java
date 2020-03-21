@@ -36,12 +36,14 @@ public class Editor extends JComponent {
         canvas.refresh();*/
     }
     public ShapeInderface getChildAt(int x, int y) {
+    	Shape theOne = null;
+    	
 		for(Shape shape: allShapes) {
 			if(shape.isInsideBounds(x, y)) {
-				return shape;
+				theOne = shape;
 			}
 		}
-		return null;
+		return theOne;
 	}
     public ArrayList<Shape> getSelected() {
     	ArrayList<Shape> selectedShapes = new ArrayList<Shape>();
@@ -109,7 +111,29 @@ public class Editor extends JComponent {
 			allShapes.remove(target);
 			allShapes.add(target);
 		}
-		
+		}
+	public void bringToBack(Shape target) {
+		if( target != null) {
+			allShapes.remove(target);
+			allShapes.add(0, target);
+		}
+				
+	}
+	public void bringFront(Shape target) {
+		if( target != null) {
+			int index = allShapes.indexOf(target);
+			allShapes.remove(target);
+			allShapes.add(index+1, target);
+		}
+				
+	}
+	public void bringBack(Shape target) {
+		if( target != null) {
+			int index = allShapes.indexOf(target);
+			allShapes.remove(target);
+			allShapes.add(index-1, target);
+		}
+				
 	}
 
 	

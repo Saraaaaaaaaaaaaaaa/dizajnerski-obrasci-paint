@@ -67,9 +67,9 @@ public class CustomPaintComponent extends Component {
 				case "CIRCLE":
 					int a = secondPoint.getX() - firstPoint.getX();
 					int b = secondPoint.getY() - firstPoint.getY();
-
 					int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-					editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,Color.gray));
+					if(radius > 2)						
+						editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,Color.gray));
 					break;
 				}
 
@@ -156,8 +156,8 @@ public class CustomPaintComponent extends Component {
 			}*/
 			ContextMenu menu = new ContextMenu();
 			 
-			menu.show(e.getComponent(), e.getX(), e.getY());
 			menu.addSource(CustomPaintComponent.this);
+			menu.show(e.getComponent(), e.getX(), e.getY());
 			
 			}
 				
