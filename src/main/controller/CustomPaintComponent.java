@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import main.controller.observers.ColorPickerObserver;
+import main.controller.observers.DeleteObserver;
 import main.model.Editor;
 import main.model.ShapeInderface;
 import main.model.shapes.Circle;
@@ -16,6 +18,7 @@ import main.model.shapes.Point;
 import main.model.shapes.Shape;
 import main.view.ColorPicker;
 import main.view.ContextMenu;
+import main.view.MainWindow;
 
 public class CustomPaintComponent extends Component {
 
@@ -29,14 +32,21 @@ public class CustomPaintComponent extends Component {
 	private Editor editor;
 	private boolean resizeShapeState;
 	private ColorPicker colorPicker;
+	private EventManeger eventManeger = new EventManeger();
 
 	public void setSelectedShape(String shapeSelector) {
 		this.shapeSelector = shapeSelector;
 	}
-
-	public CustomPaintComponent(Editor editor, ColorPicker colorPicker) {
-		this.editor = editor;
-		this.colorPicker = colorPicker;
+	public void  setSource(MainWindow source)
+	{
+		eventManeger.subscribe("DELETE BUTTON", new DeleteObserver(source.getTopToolBar()));
+	}
+	public CustomPaintComponent(MainWindow source) {
+		System.out.println(source.getTopToolBar());
+		
+		
+		this.editor = source.getEditor();
+		this.colorPicker = source.getColorPicker();
 		 
 		attachKeyboardListeners();
 		attachMouseListeners();
@@ -178,6 +188,7 @@ public class CustomPaintComponent extends Component {
 				if (target == null) {
 					if (select) {
 						editor.unSelect();
+						eventManeger.notifyObserver("DELETE BUTTON", "DISABLE");
 					}
 				} else {
 					if (target.isOnEdges(e.getX(), e.getY()) && target.isSelected()) {
@@ -189,6 +200,7 @@ public class CustomPaintComponent extends Component {
 							} else {
 								editor.unSelect();
 								target.select();
+								eventManeger.notifyObserver("DELETE BUTTON", "ENABLE");
 							}
 						}
 					}

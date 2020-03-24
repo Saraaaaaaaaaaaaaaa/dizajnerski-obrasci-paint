@@ -1,45 +1,54 @@
 package main.view;
 
 import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 
-import main.model.BrushColor;
+import main.controller.Observer;
 
-public class ColorPicker extends JComboBox<BrushColor> {
+
+
+public class ColorPicker extends JComboBox<Color> {
 	
 	private static final long serialVersionUID = 1L;
-	private BrushColor currentColor;
-	private ArrayList<BrushColor> colorOptions = new ArrayList<BrushColor>();
+	private Color currentColor;
+	private List<Observer> observers = new ArrayList<Observer>();
+	private TopToolBar view;
 	
-	public ColorPicker() {
-		currentColor = new BrushColor("#ffffff");
-		/// colorOptions.add(new BrushColor(Color.red, "RED"));
-		/// colorOptions.add(new BrushColor(Color.blue, "BLUE"));
-		/// colorOptions.add(new BrushColor(Color.green, "GREEN"));
-		
-		for(int hex = 0x000001; hex < 0xffffff ; hex += 0x1500) {
-			BrushColor cl = new BrushColor("#" + Integer.toHexString( hex));
-			addItem(cl);
-			
-		}
+	@SuppressWarnings("unchecked")
+	public ColorPicker(TopToolBar parent) {
+		this.view = parent;
+		generateOptions();
+		setRenderer(new ColorPickerRender());
 		addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentColor= (BrushColor) getSelectedItem();
+				currentColor = (Color) getSelectedItem();
+				view.getEventManeger().notifyObservers();
 				
 			}
 		});
 	}
-	public BrushColor getSelectedColor() {
+	private void generateOptions() {
+		 int[] values = new int[] { 0, 128, 192, 255 };
+		    for (int r = 0; r < values.length; r++)
+		      for (int g = 0; g < values.length; g++)
+		        for (int b = 0; b < values.length; b++) {
+		          Color c = new Color(values[r], values[g], values[b]);
+		          addItem(c);
+		        }
+		
+	}
+	public Color getSelectedColor() {
 		return currentColor;
 	}
 	
-	 
+
 	
 }
