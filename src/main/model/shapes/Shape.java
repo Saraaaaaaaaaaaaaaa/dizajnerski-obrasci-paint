@@ -164,7 +164,7 @@ public class Shape implements ShapeInderface {
             graphics.drawRect(getX() + getWidth()-3, getY()-3, 6, 6);
             graphics.drawRect(getX()-3, getY()+getHeight()-3, 6, 6);
             graphics.drawRect(getX()+getWidth()-3, getY()+getHeight()-3, 6, 6);*/
-            enableSelectionShapeStyle(graphics);
+           // enableSelectionShapeStyle(graphics);
         }else {
             disableSelectionStyle(graphics);
         }

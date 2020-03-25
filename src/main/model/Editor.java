@@ -136,6 +136,12 @@ public class Editor extends JComponent {
 				
 	}
 
+	public void deleteSelectedShapes() {
+		for(Shape shape: getSelected()) {
+			allShapes.remove(shape);
+		}
+	}
+
 	
 
 	

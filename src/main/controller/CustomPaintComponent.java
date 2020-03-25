@@ -3,6 +3,7 @@ package main.controller;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -23,7 +24,6 @@ import main.view.MainWindow;
 public class CustomPaintComponent extends Component {
 
 	private static final long serialVersionUID = 1L;
-	// private ArrayList<Shape> shapeArray = new ArrayList<Shape>();
 	private String shapeSelector = "";
 	private Shape pivotShape;
 	private Boolean firstClick = true;
@@ -37,17 +37,21 @@ public class CustomPaintComponent extends Component {
 	public void setSelectedShape(String shapeSelector) {
 		this.shapeSelector = shapeSelector;
 	}
-	public void  setSource(MainWindow source)
-	{
+
+	public void setSource(MainWindow source) {
+		this.colorPicker = source.getColorPicker();
+		this.editor = source.getEditor();
 		eventManeger.subscribe("DELETE BUTTON", new DeleteObserver(source.getTopToolBar()));
 	}
+
+	public void notifyManager(String name, String option) {
+		eventManeger.notifyObserver(name, option);
+		
+	}
 	public CustomPaintComponent(MainWindow source) {
-		System.out.println(source.getTopToolBar());
-		
-		
-		this.editor = source.getEditor();
-		this.colorPicker = source.getColorPicker();
-		 
+
+		setBackground(Color.white);
+
 		attachKeyboardListeners();
 		attachMouseListeners();
 
@@ -78,8 +82,10 @@ public class CustomPaintComponent extends Component {
 					int a = secondPoint.getX() - firstPoint.getX();
 					int b = secondPoint.getY() - firstPoint.getY();
 					int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-					if(radius > 2)						
-						editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,Color.gray));
+					//
+					if (radius > 2)
+						editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,
+								colorPicker.getSelectedColor()));
 					break;
 				}
 
@@ -111,7 +117,8 @@ public class CustomPaintComponent extends Component {
 						int b = secondPoint.getY() - firstPoint.getY();
 
 						int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-						pivotShape = new Circle(firstPoint.getX(), firstPoint.getY(), radius, Color.WHITE);
+						pivotShape = new Circle(firstPoint.getX(), firstPoint.getY(), radius,
+								colorPicker.getSelectedColor());
 						break;
 
 					}
@@ -140,15 +147,8 @@ public class CustomPaintComponent extends Component {
 		});
 	}
 
-	private boolean getReadyToScaleShape() {
-		// TODO Auto-generated method stub
-		return resizeShapeState;
-	}
-
 	private void setReadyToScaleShape(boolean b) {
 		resizeShapeState = b;
-		System.out.println(" State changed to: " + b);
-
 	}
 
 	private void attachMouseListeners() {
@@ -156,21 +156,23 @@ public class CustomPaintComponent extends Component {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
-					return;
+					if (shapeSelector == "COLORING") {
+						ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
+						if (target != null && shapeSelector == "COLORING") {
+							editor.execute(new ColorCommand(editor, colorPicker.getSelectedColor()));
+							repaint();
+						}
+					}
+
+				}else {
+
+				ContextMenu menu = new ContextMenu();
+
+				menu.addSource(CustomPaintComponent.this);
+				menu.show(e.getComponent(), e.getX(), e.getY());
 				}
-			/*	ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
-				if (target != null) {
-					editor.execute(new ColorCommand(editor, colorPicker.getSelectedColor().getColor()));
-					repaint();
-				}
-			}*/
-			ContextMenu menu = new ContextMenu();
-			 
-			menu.addSource(CustomPaintComponent.this);
-			menu.show(e.getComponent(), e.getX(), e.getY());
-			
 			}
-				
+
 		};
 		addMouseListener(colorizer);
 
@@ -182,8 +184,7 @@ public class CustomPaintComponent extends Component {
 				}
 
 				ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
-				// boolean ctrl = (e.getModifiers() & ActionEvent.CTRL_MASK) ==
-				// ActionEvent.CTRL_MASK;
+				boolean ctrl = (e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK;
 				boolean select = shapeSelector.toUpperCase().equals("SELECT");
 				if (target == null) {
 					if (select) {
@@ -198,7 +199,8 @@ public class CustomPaintComponent extends Component {
 							if (target.isSelected()) {
 								target.unSelect();
 							} else {
-								editor.unSelect();
+								if (!ctrl)
+									editor.unSelect();
 								target.select();
 								eventManeger.notifyObserver("DELETE BUTTON", "ENABLE");
 							}
@@ -227,14 +229,14 @@ public class CustomPaintComponent extends Component {
 				}
 				switch (shapeSelector.toUpperCase()) {
 				case "SCALE":
-					
-						if (resizeCommand == null) {
-							resizeCommand = new ResizeCommand(editor);
-							resizeCommand.start(e.getX(), e.getY());
-						}
-						resizeCommand.scale(e.getX(), e.getY());
-						repaint();
-					
+
+					if (resizeCommand == null) {
+						resizeCommand = new ResizeCommand(editor);
+						resizeCommand.start(e.getX(), e.getY());
+					}
+					resizeCommand.scale(e.getX(), e.getY());
+					repaint();
+
 					break;
 				case "SELECT":
 					if (moveCommand == null) {
@@ -280,8 +282,15 @@ public class CustomPaintComponent extends Component {
 
 		shape.paint(g);
 	}
+
 	public Editor getEditor() {
 		return editor;
+	}
+
+	public void setActionTo(String action) {
+		shapeSelector = action;
+		System.out.println(shapeSelector);
+		
 	}
 
 }

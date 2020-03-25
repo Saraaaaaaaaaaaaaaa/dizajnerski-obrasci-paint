@@ -7,9 +7,9 @@ import main.view.TopToolBar;
 
 public class ColorPickerObserver implements Observer{
 
-	private TopToolBar view;
+	private Object view;
 	
-	public  ColorPickerObserver(TopToolBar target) {
+	public  ColorPickerObserver(Object target) {
 		this.view = target;
 	}
 
@@ -22,8 +22,7 @@ public class ColorPickerObserver implements Observer{
 
 	@Override
 	public void update(String option) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("SELECTED COLOR " + option);				
 	}
 
 	
