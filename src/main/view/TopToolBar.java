@@ -54,15 +54,14 @@ public class TopToolBar extends JPanel {
 	private void addButtonToToolbar(String buttonText, boolean status) {
 
 		JButton button = new JButton(buttonText);
-		button.addActionListener(shapeSelector);
 		button.setEnabled(status);
 		button.addActionListener(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				painter.getEditor().deleteSelectedShapes();	
-				painter.setActionTo("SELECT");
 				painter.notifyManager("DELETE BUTTON", "DISABLE");
+				painter.setSelectedShape("SELECT");
 				painter.repaint();
 				
 			}

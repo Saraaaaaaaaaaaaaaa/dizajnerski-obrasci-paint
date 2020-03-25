@@ -21,7 +21,7 @@ import main.controller.observers.ColorPickerObserver;
 public class ColorPicker extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
-	private Color currentColor;
+	private Color currentColor = Color.white;
 	private EventManeger eventManeger = new EventManeger();	
 	private TopToolBar view;
 	

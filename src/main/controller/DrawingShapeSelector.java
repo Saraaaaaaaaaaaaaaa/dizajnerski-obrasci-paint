@@ -17,7 +17,7 @@ public class DrawingShapeSelector implements ActionListener{
 		
 		JButton clicked = (JButton)e.getSource();		
 		selectedShape = clicked.getText().toUpperCase();
-		if( selectedShape != null)
+		if( selectedShape != null )
 			painter.setSelectedShape( selectedShape);
 		
 	}

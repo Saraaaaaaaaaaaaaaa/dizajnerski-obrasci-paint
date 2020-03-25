@@ -287,10 +287,6 @@ public class CustomPaintComponent extends Component {
 		return editor;
 	}
 
-	public void setActionTo(String action) {
-		shapeSelector = action;
-		System.out.println(shapeSelector);
-		
-	}
+
 
 }
