@@ -15,10 +15,17 @@ public class DeleteObserver implements Observer {
 	@Override
 	public void update(String option) {
 		if (view != null) {
-			if (option.contains("ENABLE"))
-				view.enableDeleteButton();
-			else if (option.contains("DISABLE"))
-				view.disableDeleteButton();
+			if (option.contains("ENABLE")) {
+				if(option.contains("DELETE"))
+					view.enableDeleteButton();
+				if(option.contains("MODIFY"))
+					view.enableModifyButton();}
+			else if (option.contains("DISABLE")) {
+				if(option.contains("DELETE"))
+					view.disableDeleteButton();
+				if(option.contains("MODIFY"))
+					view.disableModifyButton();				
+			}
 		}
 	}
 

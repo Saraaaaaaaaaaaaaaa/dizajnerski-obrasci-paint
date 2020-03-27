@@ -17,6 +17,8 @@ import javax.swing.JToolBar;
 import main.controller.CustomPaintComponent;
 import main.controller.DrawingShapeSelector;
 import main.controller.EventManeger;
+import main.controller.listeners.DeleteButtonListener;
+import main.controller.listeners.ModifyButtonListener;
 import main.controller.observers.ColorPickerObserver;
 
 public class TopToolBar extends JPanel {
@@ -32,14 +34,14 @@ public class TopToolBar extends JPanel {
 		shapeSelector = new DrawingShapeSelector(paintComponent);
 		
 		setMaximumSize(new Dimension(frameWidth, 40));
-		// setBackground(Color.green);
 		addButtonToToolbar("Point");
 		addButtonToToolbar("Line");
 		addButtonToToolbar("Triangle");
 		addButtonToToolbar("Square");
 		addButtonToToolbar("Rectangle");
 		addButtonToToolbar("Circle");
-		addButtonToToolbar("Delete", false);
+		addButtonToToolbar("Delete", false, new DeleteButtonListener(painter));
+		addButtonToToolbar("Modify", false, new ModifyButtonListener(painter));
 
 	}
 
@@ -51,21 +53,11 @@ public class TopToolBar extends JPanel {
 		add(button);
 	}
 
-	private void addButtonToToolbar(String buttonText, boolean status) {
+	private void addButtonToToolbar(String buttonText, boolean status, AbstractAction listener) {
 
 		JButton button = new JButton(buttonText);
 		button.setEnabled(status);
-		button.addActionListener(new AbstractAction() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				painter.getEditor().deleteSelectedShapes();	
-				painter.notifyManager("DELETE BUTTON", "DISABLE");
-				painter.setSelectedShape("SELECT");
-				painter.repaint();
-				
-			}
-		});
+		button.addActionListener(listener);
 		options.put(buttonText.toUpperCase(), button);
 		add(button);
 	}
@@ -80,5 +72,17 @@ public class TopToolBar extends JPanel {
 	public void disableDeleteButton() {
 		JButton delButton = options.get("DELETE");
 		delButton.setEnabled(false);
+	}
+
+	public void enableModifyButton() {
+
+		JButton button = options.get("MODIFY");
+		button.setEnabled(true);
+
+	}
+
+	public void disableModifyButton() {
+		JButton button = options.get("MODIFY");
+		button.setEnabled(false);
 	}
 }

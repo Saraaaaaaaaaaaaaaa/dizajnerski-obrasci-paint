@@ -2,6 +2,7 @@ package main.controller;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -41,7 +42,7 @@ public class CustomPaintComponent extends Component {
 	public void setSource(MainWindow source) {
 		this.colorPicker = source.getColorPicker();
 		this.editor = source.getEditor();
-		eventManeger.subscribe("DELETE BUTTON", new DeleteObserver(source.getTopToolBar()));
+		eventManeger.subscribe("MANAGING BUTTONS", new DeleteObserver(source.getTopToolBar()));
 	}
 
 	public void notifyManager(String name, String option) {
@@ -189,7 +190,7 @@ public class CustomPaintComponent extends Component {
 				if (target == null) {
 					if (select) {
 						editor.unSelect();
-						eventManeger.notifyObserver("DELETE BUTTON", "DISABLE");
+						eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE MODIFY DELETE");
 					}
 				} else {
 					if (target.isOnEdges(e.getX(), e.getY()) && target.isSelected()) {
@@ -198,11 +199,29 @@ public class CustomPaintComponent extends Component {
 						if (select) {
 							if (target.isSelected()) {
 								target.unSelect();
+								if(editor.getSelected().size() == 0)
+									eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE DELETE MODIFY");								
+								if(editor.getSelected().size() == 1)
+									eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE  MODIFY");
+								if(editor.getSelected().size() > 1)
+									eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE  MODIFY");									
+								// lud zbunjenog
 							} else {
 								if (!ctrl)
 									editor.unSelect();
+								
 								target.select();
-								eventManeger.notifyObserver("DELETE BUTTON", "ENABLE");
+								eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE MODIFY");
+								if(ctrl)
+								{
+									if(editor.getSelected().size() == 0)
+										eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE DELETE MODIFY");								
+									if(editor.getSelected().size() == 1)
+										eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE  MODIFY");
+									if(editor.getSelected().size() > 1)
+										eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE  MODIFY");
+										
+								}
 							}
 						}
 					}
@@ -285,6 +304,13 @@ public class CustomPaintComponent extends Component {
 
 	public Editor getEditor() {
 		return editor;
+	}
+	public void changeCursorToMove() {
+		setCursor(new Cursor(Cursor.MOVE_CURSOR));
+	}
+	public void changeCursorToModificatior() {
+		setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+		
 	}
 
 

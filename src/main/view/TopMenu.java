@@ -42,6 +42,7 @@ public class TopMenu extends JMenuBar  {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				painter.setSelectedShape("SELECT");
+				painter.changeCursorToMove();
 				
 			}
 		});
