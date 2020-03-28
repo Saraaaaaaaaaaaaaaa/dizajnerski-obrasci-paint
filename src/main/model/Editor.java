@@ -8,16 +8,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import main.controller.Command;
 import main.controller.Memento;
+import main.controller.comamnds.Command;
 import main.model.shapes.Shape;
 
 
 
 public class Editor extends JComponent {
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
     private ArrayList<Shape> allShapes = new ArrayList<Shape>();
     private History history;

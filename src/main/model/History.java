@@ -3,8 +3,8 @@ package main.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.controller.Command;
 import main.controller.Memento;
+import main.controller.comamnds.Command;
 
 public class History {
     private List<Pair> history = new ArrayList<Pair>();
@@ -28,7 +28,7 @@ public class History {
     }
 
     public void push(Command c, Memento m) {
-        if (virtualSize != history.size() && virtualSize > 0) {
+       if (virtualSize != history.size() && virtualSize > 0) {
             history = history.subList(0, virtualSize - 1);
         }
         history.add(new Pair(c, m));

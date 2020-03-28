@@ -1,11 +1,8 @@
 package main.view;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -19,37 +16,45 @@ import main.controller.observers.ColorPickerObserver;
 
 
 
-public class ColorPicker extends JPanel{
+public class ColorPicker extends JButton{
 	
 	private static final long serialVersionUID = 1L;
 	private Color currentColor = Color.white;
 	private EventManeger eventManeger = new EventManeger();	
-	private TopToolBar view;
 	
 	
-	@SuppressWarnings("unchecked")
+	
 	public ColorPicker(TopToolBar parent) {
-		this.view = parent;
+	
 		setMaximumSize(new Dimension(900, 30));
+		setText("Inner color");		
+		setBackground(currentColor);
+		eventManeger.subscribe("UPDATE COLOR",new ColorPickerObserver(parent));
 		addItem();
 	}
 	void addItem() {
-		JButton clr = new JButton(" Open color pick");		
-		clr.addActionListener(new AbstractAction() {
+		addActionListener(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				currentColor = clr.getBackground();
-				ColorPickerDialog cl = new ColorPickerDialog();				
+				currentColor = getBackground();
+				ColorPickerDialog cl = new ColorPickerDialog(eventManeger, currentColor);				
 				cl.setVisible(true);
 			}
 		});
-		add(clr);
+		
 	}
 	public Color getSelectedColor() {
 		return currentColor;
 	}
 	
+	public void setSelectedColor(Color color) {
+		currentColor = color;
+	}
+	public void updateBackground() {
+		setBackground(currentColor);
+		
+	}
 
 	
 }

@@ -22,7 +22,10 @@ public class ColorPickerObserver implements Observer{
 
 	@Override
 	public void update(String option) {
-		System.out.println("SELECTED COLOR " + option);				
+		if( view instanceof TopToolBar) {
+			((TopToolBar)view).setCurrentColor(option);
+			((TopToolBar)view).updateCurrentColor();
+		}
 	}
 
 	

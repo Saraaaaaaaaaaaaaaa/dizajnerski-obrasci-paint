@@ -1,4 +1,4 @@
-package main.controller;
+package main.controller.comamnds;
 
 import main.model.Editor;
 import main.model.ShapeInderface;

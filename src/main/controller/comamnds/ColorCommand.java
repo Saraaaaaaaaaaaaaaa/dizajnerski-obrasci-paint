@@ -1,4 +1,4 @@
-package main.controller;
+package main.controller.comamnds;
 
 
 import java.awt.*;

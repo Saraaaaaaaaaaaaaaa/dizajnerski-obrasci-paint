@@ -17,7 +17,7 @@ public class DeleteButtonListener extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		painter.getEditor().deleteSelectedShapes();	
-		painter.notifyManager("ENABLE BUTTONS", "DISABLE");
+		painter.notifyManager("MANAGING BUTTONS", "DISABLE");
 		painter.setSelectedShape("SELECT");
 		painter.repaint();
 	}

@@ -25,6 +25,7 @@ public class TopToolBar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private DrawingShapeSelector shapeSelector;
+	private ColorPicker colorPicker ;
 	private CustomPaintComponent painter;
 	private HashMap<String, JButton> options = new HashMap<>();
 
@@ -42,7 +43,40 @@ public class TopToolBar extends JPanel {
 		addButtonToToolbar("Circle");
 		addButtonToToolbar("Delete", false, new DeleteButtonListener(painter));
 		addButtonToToolbar("Modify", false, new ModifyButtonListener(painter));
+		addColorPicker();
+		addUndoRedoButtons();
 
+	}
+
+	private void addUndoRedoButtons() {
+		addButtonToToolbar("Undo", false, new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(painter.getEditor().undo())
+					painter.repaint();
+				else
+					painter.notifyManager("MANAGING BUTTONS", "DISABLE UNDO" );
+				
+			}
+		});
+		
+		addButtonToToolbar("Redo",false, new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				painter.getEditor().redo();
+				painter.repaint();
+				
+			}
+		});
+		
+	}
+
+	private void addColorPicker() {
+		colorPicker = new ColorPicker(this);
+		add(colorPicker);
+		
 	}
 
 	private void addButtonToToolbar(String buttonText) {
@@ -85,4 +119,32 @@ public class TopToolBar extends JPanel {
 		JButton button = options.get("MODIFY");
 		button.setEnabled(false);
 	}
+
+	public void enableUndoButton() {
+		JButton button = options.get("UNDO");
+		button.setEnabled(true);
+		
+	}
+	
+	public void disableUndoButton() {
+		JButton button = options.get("UNDO");
+		button.setEnabled(false);
+		
+	}
+	public void setCurrentColor(String option) {
+		colorPicker.setSelectedColor(new Color(Integer.parseInt(option),true));
+		
+	}
+	public ColorPicker getColorPicker() {
+		return colorPicker;
+	}
+
+	public void updateCurrentColor() {
+		colorPicker.updateBackground();
+		
+	}
+
+
+
+
 }

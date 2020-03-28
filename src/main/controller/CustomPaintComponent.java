@@ -12,7 +12,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import main.controller.observers.ColorPickerObserver;
-import main.controller.observers.DeleteObserver;
+import main.controller.comamnds.ColorCommand;
+import main.controller.comamnds.CreateShapeCommand;
+import main.controller.comamnds.MoveCommand;
+import main.controller.comamnds.ResizeCommand;
+import main.controller.observers.ButtonsObserver;
 import main.model.Editor;
 import main.model.ShapeInderface;
 import main.model.shapes.Circle;
@@ -42,7 +46,7 @@ public class CustomPaintComponent extends Component {
 	public void setSource(MainWindow source) {
 		this.colorPicker = source.getColorPicker();
 		this.editor = source.getEditor();
-		eventManeger.subscribe("MANAGING BUTTONS", new DeleteObserver(source.getTopToolBar()));
+		eventManeger.subscribe("MANAGING BUTTONS", new ButtonsObserver(source.getTopToolBar()));
 	}
 
 	public void notifyManager(String name, String option) {
@@ -52,12 +56,11 @@ public class CustomPaintComponent extends Component {
 	public CustomPaintComponent(MainWindow source) {
 
 		setBackground(Color.white);
-
-		attachKeyboardListeners();
 		attachMouseListeners();
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				
 				if (firstClick) {
 					firstPoint.setX(e.getX());
 					firstPoint.setY(e.getY());
@@ -69,26 +72,12 @@ public class CustomPaintComponent extends Component {
 			public void mouseReleased(MouseEvent e) {
 
 				secondPoint.setX(e.getX());
-				secondPoint.setY(e.getY());
-				switch (shapeSelector) {
-				case "POINT":
-					break;
-				case "LINE": // shapeArray.add(new Line(firstPoint, secondPoint)); break;
-				case "TRIANGLE":
-					// shapeArray.add(new Triangle(firstPoint, secondPoint));
-					break;
-				case "RECTANGLE":// shapeArray.add(new Rectangle(firstPoint, secondPoint));
-					break;
-				case "CIRCLE":
-					int a = secondPoint.getX() - firstPoint.getX();
-					int b = secondPoint.getY() - firstPoint.getY();
-					int radius = (int) (Math.sqrt(a * a + b * b) / 2.4);
-					//
-					if (radius > 2)
-						editor.addShape(new Circle(firstPoint.getX(), firstPoint.getY(), radius,
-								colorPicker.getSelectedColor()));
-					break;
-				}
+				secondPoint.setY(e.getY());			
+			
+				CreateShapeCommand command = new CreateShapeCommand(editor);
+				command.create(shapeSelector, firstPoint, secondPoint,colorPicker.getSelectedColor());		
+				editor.execute(command);
+				eventManeger.notifyObserver("MANAGING BUTTONS","ENABLE UNDO");
 
 				// repaint();
 				firstClick = true;
@@ -128,25 +117,10 @@ public class CustomPaintComponent extends Component {
 				}
 			}
 		});
+		//attachKeyboardListeners();
 	}
 
-	private void attachKeyboardListeners() {
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0) {
-					switch (e.getKeyCode()) {
-					case KeyEvent.VK_Z:
-						editor.undo();
-						break;
-					case KeyEvent.VK_R:
-						editor.redo();
-						break;
-					}
-				}
-			}
-		});
-	}
+	
 
 	private void setReadyToScaleShape(boolean b) {
 		resizeShapeState = b;
@@ -276,6 +250,8 @@ public class CustomPaintComponent extends Component {
 				moveCommand.stop(e.getX(), e.getY());
 
 				editor.execute(moveCommand);
+				eventManeger.notifyObserver("MANAGING BUTTONS","ENABLE UNDO");
+				
 				this.moveCommand = null;
 				this.resizeCommand = null;
 				repaint();

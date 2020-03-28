@@ -17,26 +17,29 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import main.controller.EventManeger;
 import main.controller.observers.ColorPickerObserver;
 
 	
 public class ColorPickerDialog extends JFrame{
-	private Color pickedColor;
+
 	public JPanel contexPane = new JPanel(); 
 	public JPanel wraper = new JPanel();
 	private GroupLayout framelayout ;
 	private GridLayout  layout = new GridLayout(10,10);
-	private int counter = 0;
+	private EventManeger eventManeger;
 	private JLabel label1 = new JLabel("Pick color ");
-	private JButton btnClose = new JButton("Cancel");
-	private JButton btnOk = new JButton("Ok");
-	
-	public ColorPickerDialog() {
+	private JButton btnOk ;
+	private Color pickedColor;
+	public ColorPickerDialog(EventManeger eventManeger, Color currentColor) {
+		this.pickedColor = currentColor;
+		this.eventManeger = eventManeger;
 		setMinimumSize(new Dimension(280, 280));
 		framelayout = new GroupLayout(wraper); 
 		wraper.setLayout(framelayout);
 		contexPane.setLayout(layout);
 		
+		addListenerToButtonOK();
 		generateOptions();
 		
 		framelayout.setHorizontalGroup(
@@ -57,6 +60,18 @@ public class ColorPickerDialog extends JFrame{
 		add(wraper);
 		
 		pack();
+	}
+	private void addListenerToButtonOK() {
+		btnOk = new JButton(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				eventManeger.notifyObserver("UPDATE COLOR", Integer.toString(pickedColor.getRGB()));
+				
+			}
+		});
+		btnOk.setText("Ok");
 	}
 	private void generateOptions() {
 		addItem(Color.BLACK);
@@ -83,7 +98,7 @@ public class ColorPickerDialog extends JFrame{
 		
 	}
 	void addItem(Color option) {
-		counter++;
+
 		Button clr = new Button();
 		clr.setSize(new Dimension(30,30 ));
 		clr.setBackground(option);
