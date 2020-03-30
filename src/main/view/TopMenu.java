@@ -78,7 +78,7 @@ public class TopMenu extends JMenuBar  {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-			System.out.println("Not yet implemented");
+			painter.getEditor().saveHistory();
 			}
 		});
 		
@@ -89,11 +89,12 @@ public class TopMenu extends JMenuBar  {
 		savelogs.setText("logs");
 		saveAs.add(saveAstxt);
 		saveAs.add(savelogs);
-		open = new JMenu(new AbstractAction() {
+		open = new JMenuItem(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+				painter.getEditor().loadHistory();
+				painter.repaint();
 			}
 		});
 		saveAs.setText("Save as");

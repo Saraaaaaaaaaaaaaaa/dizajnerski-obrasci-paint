@@ -85,7 +85,6 @@ public class ContextMenu  extends JPopupMenu{
 			bringFront.setEnabled(true);
 			bringBack.setEnabled(true);
 		}*/
-		System.out.println(shapePosition);
 		if(source.getEditor().getShapes().size()-1 == shapePosition)
 			bringFront.setEnabled(false);	
 		else

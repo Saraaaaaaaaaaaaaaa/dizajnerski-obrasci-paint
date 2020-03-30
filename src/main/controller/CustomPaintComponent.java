@@ -12,6 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.swing.SwingUtilities;
+
 import main.controller.observers.ColorPickerObserver;
 import main.controller.comamnds.ColorCommand;
 import main.controller.comamnds.CreateShapeCommand;
@@ -130,34 +132,26 @@ public class CustomPaintComponent extends Component {
 	}
 
 	private void attachMouseListeners() {
-		MouseAdapter colorizer = new MouseAdapter() {
+		MouseAdapter contexMenu = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (e.getButton() != MouseEvent.BUTTON3) {
-					if (shapeSelector == "COLORING") {
+				if (SwingUtilities.isRightMouseButton(e)) {					
 						ShapeInderface target = editor.getChildAt(e.getX(), e.getY());
-						if (target != null && shapeSelector == "COLORING") {
-							editor.execute(new ColorCommand(editor,  colorPicker.getSelectedFillColor(), colorPicker.getSelectedLineColor()));
-							repaint();
+						if (target != null ) {
+							ContextMenu menu = new ContextMenu();
+							menu.addSource(CustomPaintComponent.this);
+							menu.show(e.getComponent(), e.getX(), e.getY());
 						}
-					}
-
-				}else {
-
-				ContextMenu menu = new ContextMenu();
-
-				menu.addSource(CustomPaintComponent.this);
-				menu.show(e.getComponent(), e.getX(), e.getY());
 				}
-			}
 
+			}
 		};
-		addMouseListener(colorizer);
+		addMouseListener(contexMenu);
 
 		MouseAdapter selector = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (e.getButton() != MouseEvent.BUTTON1) {
+				if (SwingUtilities.isMiddleMouseButton(e)) {
 					return;
 				}
 
