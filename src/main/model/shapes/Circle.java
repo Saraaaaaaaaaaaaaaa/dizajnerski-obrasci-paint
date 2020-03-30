@@ -8,8 +8,8 @@ public class Circle extends Shape {
 	private static final long serialVersionUID = 1L;
 	private int radius;
 	  
-	    public Circle(int x, int y, int radius, Color color) {
-        super(x, y, color);
+	    public Circle(int x, int y, int radius, Color fill, Color line) {
+        super(x, y, fill, line);
         this.radius = radius;
     }
 	    @Override
@@ -22,10 +22,11 @@ public class Circle extends Shape {
     }
 	    @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
-        graphics.drawOval(x, y, getWidth() - 1, getHeight() - 1);
-        graphics.setColor(super.getColor());
-        graphics.fillOval(x+1, y+1, getWidth() - 3, getHeight() - 3);
+        super.paint(graphics);        
+        graphics.setColor(super.getFillColor());
+        graphics.fillOval(x, y+1, getWidth(), getHeight());
+        graphics.setColor(super.getLineColor());
+        graphics.drawOval(x, y, getWidth(), getHeight());
     
     }
 	    @Override	    

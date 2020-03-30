@@ -53,9 +53,10 @@ public class TopToolBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(painter.getEditor().undo())
+				if(painter.getEditor().undo()) {
 					painter.repaint();
-				else
+					painter.notifyManager("MANAGING BUTTONS", "ENABLE REDO");
+				}else
 					painter.notifyManager("MANAGING BUTTONS", "DISABLE UNDO" );
 				
 			}
@@ -65,9 +66,12 @@ public class TopToolBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				painter.getEditor().redo();
-				painter.repaint();
-				
+				if(painter.getEditor().redo()) {
+					painter.repaint();
+					painter.notifyManager("MANAGING BUTTONS", "ENABLE UNDO");
+				}
+				else
+					painter.notifyManager("MANAGING BUTTONS", "DISABLE REDO" );
 			}
 		});
 		
@@ -96,54 +100,34 @@ public class TopToolBar extends JPanel {
 		add(button);
 	}
 
-	public void enableDeleteButton() {
-
-		JButton delButton = options.get("DELETE");
-		delButton.setEnabled(true);
-
-	}
-
-	public void disableDeleteButton() {
-		JButton delButton = options.get("DELETE");
-		delButton.setEnabled(false);
-	}
-
-	public void enableModifyButton() {
-
-		JButton button = options.get("MODIFY");
-		button.setEnabled(true);
-
-	}
-
-	public void disableModifyButton() {
-		JButton button = options.get("MODIFY");
-		button.setEnabled(false);
-	}
-
-	public void enableUndoButton() {
-		JButton button = options.get("UNDO");
-		button.setEnabled(true);
+	public void setCurrentLineColor(String option) {
+		colorPicker.setSelectedLineColor(new Color(Integer.parseInt(option),true));
 		
 	}
-	
-	public void disableUndoButton() {
-		JButton button = options.get("UNDO");
-		button.setEnabled(false);
-		
-	}
-	public void setCurrentColor(String option) {
-		colorPicker.setSelectedColor(new Color(Integer.parseInt(option),true));
+	public void setCurrentFillColor(String option) {
+		colorPicker.setSelectedFillColor(new Color(Integer.parseInt(option),true));
 		
 	}
 	public ColorPicker getColorPicker() {
 		return colorPicker;
 	}
 
-	public void updateCurrentColor() {
+/*	public void updateCurrentColor() {
 		colorPicker.updateBackground();
 		
 	}
+*/
+	public void setButtonStatusByName(String name, boolean status) {
+		options.get(name).setEnabled(status);	
+		
+	}
 
+	public void updateView() {
+		
+		
+	}
+
+	
 
 
 

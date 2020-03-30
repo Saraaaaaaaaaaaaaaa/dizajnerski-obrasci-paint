@@ -30,9 +30,9 @@ public class ColorPickerDialog extends JFrame{
 	private EventManeger eventManeger;
 	private JLabel label1 = new JLabel("Pick color ");
 	private JButton btnOk ;
-	private Color pickedColor;
-	public ColorPickerDialog(EventManeger eventManeger, Color currentColor) {
-		this.pickedColor = currentColor;
+	private JButton sender;
+	public ColorPickerDialog(EventManeger eventManeger, JButton sender) {
+		this.sender = sender;
 		this.eventManeger = eventManeger;
 		setMinimumSize(new Dimension(280, 280));
 		framelayout = new GroupLayout(wraper); 
@@ -65,9 +65,11 @@ public class ColorPickerDialog extends JFrame{
 		btnOk = new JButton(new AbstractAction() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
+				
+				eventManeger.notifyObserver("UPDATE "+sender.getName() + " COLOR",Integer.toString(sender.getBackground().getRGB()));
 				dispose();
-				eventManeger.notifyObserver("UPDATE COLOR", Integer.toString(pickedColor.getRGB()));
+				
 				
 			}
 		});
@@ -106,14 +108,14 @@ public class ColorPickerDialog extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				pickedColor =  clr.getBackground();
+				sender.setBackground( clr.getBackground());
 			}
 		});		
 			
 		contexPane.add(clr);
 	}
 	public Color getSelectedColor() {
-		return pickedColor;
+		return Color.GREEN;
 	}
 	
 

@@ -17,19 +17,23 @@ public class ButtonsObserver implements Observer {
 		if (view != null) {
 			if (option.contains("ENABLE")) {
 				if(option.contains("DELETE"))
-					view.enableDeleteButton();
+					view.setButtonStatusByName("DELETE", true);
 				if(option.contains("MODIFY"))
-					view.enableModifyButton();
+					view.setButtonStatusByName("MODIFY", true);
 				if(option.contains("UNDO"))
-					view.enableUndoButton();}			
+					view.setButtonStatusByName("UNDO", true);
+				if(option.contains("REDO"))
+					view.setButtonStatusByName("REDO", true);				
+			}			
 			else if (option.contains("DISABLE")) {
 				if(option.contains("DELETE"))
-					view.disableDeleteButton();
+					view.setButtonStatusByName("DELETE", false);
 				if(option.contains("MODIFY"))
-					view.disableModifyButton();
+					view.setButtonStatusByName("MODIFY", false);
 				if(option.contains("UNDO"))
-					view.disableUndoButton();
-				
+					view.setButtonStatusByName("UNDO", false);
+				if(option.contains("REDO"))
+					view.setButtonStatusByName("REDO", false);	
 			}
 		}
 	}

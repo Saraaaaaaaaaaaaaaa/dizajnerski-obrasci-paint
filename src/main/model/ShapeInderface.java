@@ -17,8 +17,10 @@ public interface ShapeInderface extends Serializable {
     void scaleTo(int x, int y);
     boolean isInsideBounds(int x, int y);
     boolean isOnEdges(int x , int y);
-    Color getColor();
-    void setColor(Color color);
+    Color getFillColor();
+    Color getLineColor();
+    void setFillColor(Color color);
+    void setLineColor(Color color);
     void select();
     void unSelect();
     boolean isSelected();

@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import main.controller.CustomPaintComponent;
+import main.controller.comamnds.ChangeOrderCommand;
 import main.model.Editor;
 
 import main.model.shapes.Shape;
@@ -25,7 +26,7 @@ public class ContextMenu  extends JPopupMenu{
 		    public void actionPerformed(ActionEvent e) {
 		    	if( x != null && y != null ) {
 		    		Shape target =(Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
-		    		source.getEditor().bringToFront(target);
+		    		source.getEditor().execute(new ChangeOrderCommand(source.getEditor(), target, source.getEditor().getShapes().size()-1));
 		    		source.repaint();
 		    	}
 		    }
@@ -36,7 +37,7 @@ public class ContextMenu  extends JPopupMenu{
 			public void actionPerformed(ActionEvent arg0) {
 				if( x != null && y != null ) {
 		    		Shape target =(Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
-		    		source.getEditor().bringToBack(target);
+		    		source.getEditor().execute(new ChangeOrderCommand(source.getEditor(), target, 0));
 		    		source.repaint();
 		    	}
 				
@@ -48,7 +49,8 @@ public class ContextMenu  extends JPopupMenu{
 			public void actionPerformed(ActionEvent arg0) {
 				if( x != null && y != null ) {
 		    		Shape target = (Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
-		    		source.getEditor().bringFront(target);
+		    		source.getEditor().execute(new ChangeOrderCommand(source.getEditor(), target,
+		    						source.getEditor().getShapes().indexOf(target)+1));
 		    		source.repaint();
 		    	}
 				
@@ -60,7 +62,8 @@ public class ContextMenu  extends JPopupMenu{
 			public void actionPerformed(ActionEvent arg0) {
 				if( x != null && y != null ) {
 		    		Shape target = (Shape) source.getEditor().getChildAt(x.intValue(),y.intValue());
-		    		source.getEditor().bringBack(target);
+		    		source.getEditor().execute(new ChangeOrderCommand(source.getEditor(), target,
+		    						source.getEditor().getShapes().indexOf(target)-1));
 		    		source.repaint();
 		    	}
 				

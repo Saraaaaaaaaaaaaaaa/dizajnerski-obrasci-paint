@@ -8,22 +8,32 @@ import main.model.ShapeInderface;
 
 public class ColorCommand implements Command {
     private Editor editor;
-    private Color color;
+    private Color fill, line;
 
-    public ColorCommand(Editor editor, Color color) {
+    public ColorCommand(Editor editor, Color fill, Color line) {
         this.editor = editor;
-        this.color = color;
+        this.line = line;
+        this.fill = fill;
     }
 
     @Override
     public String getName() {
-        return "Colorize: " + color.toString();
+    	return  "CHANGE SHAPE COLOR -> " + fill.toString();       
+        
     }
 
     @Override
     public void execute() {
         for (ShapeInderface child : editor.getSelected()) {
-            child.setColor(color);
+            child.setFillColor(fill);
+            child.setLineColor(line);
+            editor.log(getName());
         }
     }
+
+    @Override
+    public boolean hasTarget() {
+    	return editor.getSelected().size() == 0 ? false : true;
+    }
+    
 }

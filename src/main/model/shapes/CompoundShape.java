@@ -12,7 +12,7 @@ public class CompoundShape extends Shape {
     private List<ShapeInderface> children = new ArrayList<>();
 
     public CompoundShape(ShapeInderface... components) {
-        super(0, 0, Color.BLACK);
+        super(0, 0, Color.WHITE, Color.black);
         add(components);
     }
 
@@ -136,11 +136,13 @@ public class CompoundShape extends Shape {
     }
 
     @Override
-    public void setColor(Color color) {
-        super.setColor(color);
+    public void setAllColor(Color fill, Color line) {
+        super.setFillColor(fill);
+        super.setLineColor(line);
         for (ShapeInderface child : children) {
-            child.setColor(color);
-        }
+            child.setFillColor(fill);
+            child.setLineColor(line);}
+        
     }
 
     @Override

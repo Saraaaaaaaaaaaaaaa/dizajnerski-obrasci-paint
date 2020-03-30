@@ -14,9 +14,13 @@ public class MoveCommand implements Command {
 
     @Override
     public String getName() {
-        return "Move by X:" + (endX - startX) + " Y:" + (endY - startY);
+        return "MOVE BY -> (" + (endX - startX) + " ," + (endY - startY) + ")";
     }
-
+    @Override
+    public boolean hasTarget() {
+    	return editor.getSelected().size() == 0 ? false : true;
+    }
+    
     public void start(int x, int y) {
         startX = x;
         startY = y;
@@ -26,8 +30,10 @@ public class MoveCommand implements Command {
     }
 
     public void move(int x, int y) {
+    	
         for (ShapeInderface child : editor.getSelected()) {
             child.moveTo(x - startX, y - startY);
+            
         }
     }
 
@@ -41,8 +47,11 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
+    	System.out.print("MOVE SHAPES -> ");		
         for (ShapeInderface child : editor.getSelected()) {
             child.moveBy(endX - startX, endY - startY);
+            System.out.println("("+ (endX - startX) + ","+ ""+( endY - startY) +")");
+            editor.log(getName());
         }
     }
 }

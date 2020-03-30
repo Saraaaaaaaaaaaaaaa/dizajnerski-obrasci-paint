@@ -19,7 +19,7 @@ public class Editor extends JComponent {
 	private static final long serialVersionUID = 1L;
     private ArrayList<Shape> allShapes = new ArrayList<Shape>();
     private History history;
-
+    private StringBuilder logs = new StringBuilder();
     public Editor() {
         history = new History();
     }
@@ -55,7 +55,6 @@ public class Editor extends JComponent {
     public void unSelect() {
     	for(Shape shape: allShapes) {
 			shape.unSelect();
-			System.out.println(" >> " + shape.isSelected());
 		}
 		
 	}
@@ -103,36 +102,7 @@ public class Editor extends JComponent {
             System.out.print("IOException occurred.");
         }
     }
-
-	public void bringToFront(Shape target) {
-		if( target != null) {
-			allShapes.remove(target);
-			allShapes.add(target);
-		}
-		}
-	public void bringToBack(Shape target) {
-		if( target != null) {
-			allShapes.remove(target);
-			allShapes.add(0, target);
-		}
-				
-	}
-	public void bringFront(Shape target) {
-		if( target != null) {
-			int index = allShapes.indexOf(target);
-			allShapes.remove(target);
-			allShapes.add(index+1, target);
-		}
-				
-	}
-	public void bringBack(Shape target) {
-		if( target != null) {
-			int index = allShapes.indexOf(target);
-			allShapes.remove(target);
-			allShapes.add(index-1, target);
-		}
-				
-	}
+		
 
 	public void deleteSelectedShapes() {
 		for(Shape shape: getSelected()) {
@@ -140,9 +110,27 @@ public class Editor extends JComponent {
 		}
 	}
 
+	public void log(String text) {
+		logs.append(text);		
+		logs.append("\n");
+	}
+	 
+	public void saveLogs() {
+		 try {
+		      File myObj = new File("logs.txt");
+		      if (myObj.createNewFile()) {
+		        System.out.println("File created: " + myObj.getName());
+		        
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		      FileWriter fw = new FileWriter("logs.txt");
+		      fw.write(logs.toString());
+		      fw.close();
+ 		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		  }
+	}
 	
-
-	
-
-	
-}

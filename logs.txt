@@ -1,0 +1,6 @@
+CREATE SHAPE -> CIRCLE :(246, 50) (333, 154) RGB = 255,255,255
+MOVE BY -> (160 ,-5)
+RESIZE SHAPE on positions -> start (503, 144) end (621, 236)
+MOVE BY -> (-59 ,66)
+MOVE BY -> (-71 ,78)
+MOVE BY -> (-75 ,77)

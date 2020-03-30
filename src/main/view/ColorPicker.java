@@ -14,47 +14,65 @@ import main.controller.EventManeger;
 import main.controller.Observer;
 import main.controller.observers.ColorPickerObserver;
 
+public class ColorPicker extends JPanel {
 
-
-public class ColorPicker extends JButton{
-	
 	private static final long serialVersionUID = 1L;
-	private Color currentColor = Color.white;
-	private EventManeger eventManeger = new EventManeger();	
-	
-	
-	
+	private JButton fillColor = new JButton("Fill color");
+	private JButton lineColor = new JButton("Line color");
+	// private Color currentColor = Color.white;
+	private EventManeger eventManeger = new EventManeger();
+
 	public ColorPicker(TopToolBar parent) {
-	
+
 		setMaximumSize(new Dimension(900, 30));
-		setText("Inner color");		
-		setBackground(currentColor);
-		eventManeger.subscribe("UPDATE COLOR",new ColorPickerObserver(parent));
-		addItem();
+		fillColor.setBackground(Color.WHITE);
+		lineColor.setBackground(Color.BLACK);
+
+		fillColor.setName("FILL");
+		lineColor.setName("LINE");
+		eventManeger.subscribe("UPDATE FILL COLOR", new ColorPickerObserver(parent, "FILL"));
+		eventManeger.subscribe("UPDATE LINE COLOR", new ColorPickerObserver(parent, "LINE"));
+		
+		addlisteners();
+		add(fillColor);
+		add(lineColor);
 	}
-	void addItem() {
-		addActionListener(new AbstractAction() {
-			
+
+	void addlisteners() {
+		fillColor.addActionListener(new AbstractAction() {
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				currentColor = getBackground();
-				ColorPickerDialog cl = new ColorPickerDialog(eventManeger, currentColor);				
+				ColorPickerDialog cl = new ColorPickerDialog(eventManeger, fillColor);
 				cl.setVisible(true);
 			}
 		});
-		
-	}
-	public Color getSelectedColor() {
-		return currentColor;
-	}
-	
-	public void setSelectedColor(Color color) {
-		currentColor = color;
-	}
-	public void updateBackground() {
-		setBackground(currentColor);
-		
+		lineColor.addActionListener(new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				ColorPickerDialog cl = new ColorPickerDialog(eventManeger, lineColor);
+				cl.setVisible(true);
+			}
+		});
+
 	}
 
-	
+	public Color getSelectedFillColor() {
+		return fillColor.getBackground();
+	}
+	public Color getSelectedLineColor() {
+		return lineColor.getBackground();
+	}
+
+	public void setSelectedFillColor(Color color) {
+		fillColor.setBackground(color);
+	}
+	public void setSelectedLineColor(Color color) {
+		lineColor.setBackground(color);
+	}
+
+
+
 }

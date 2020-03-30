@@ -11,12 +11,15 @@ import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
 
 import main.controller.CustomPaintComponent;
+import main.controller.listeners.SaveLogsListener;
 
 public class TopMenu extends JMenuBar  {
 	private JMenu file = new JMenu("File");
 	private JMenu edit = new JMenu("Edit");
 	private JMenuItem open;
-	private JMenuItem saveAs;
+	private JMenu saveAs;
+	private JMenuItem saveAstxt;
+	private JMenuItem savelogs;	
 	private JMenuItem select;
 	private JMenuItem scale;
 	private JMenuItem colorPicker;
@@ -67,15 +70,29 @@ public class TopMenu extends JMenuBar  {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
+		saveAstxt  = new JMenuItem(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+			System.out.println("Not yet implemented");
+			}
+		});
+		
+		
+		savelogs = new JMenuItem(new SaveLogsListener(painter));
+		
+		saveAstxt.setText("text file");
+		savelogs.setText("logs");
+		saveAs.add(saveAstxt);
+		saveAs.add(savelogs);
 		open = new JMenu(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});

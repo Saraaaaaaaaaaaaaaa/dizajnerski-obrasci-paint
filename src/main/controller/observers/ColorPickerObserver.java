@@ -8,23 +8,28 @@ import main.view.TopToolBar;
 public class ColorPickerObserver implements Observer{
 
 	private Object view;
+	private String type;
 	
-	public  ColorPickerObserver(Object target) {
+	public  ColorPickerObserver(Object target, String type) {
 		this.view = target;
+		this.type = type;
 	}
 
 
 	@Override
 	public void update() {
-			System.out.println("OBSEERVER SYSIO");		
 	}
 
 
 	@Override
 	public void update(String option) {
 		if( view instanceof TopToolBar) {
-			((TopToolBar)view).setCurrentColor(option);
-			((TopToolBar)view).updateCurrentColor();
+			if( type.contains("FILL"))				
+				((TopToolBar)view).setCurrentFillColor(option);
+			else if(type.contains("LINE"))
+				((TopToolBar)view).setCurrentLineColor(option);
+			
+			((TopToolBar)view).updateView();
 		}
 	}
 

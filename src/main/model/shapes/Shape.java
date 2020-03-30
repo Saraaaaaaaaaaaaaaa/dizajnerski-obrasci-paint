@@ -14,13 +14,15 @@ public class Shape implements ShapeInderface {
 	private static final long serialVersionUID = 1L;
 	int x, y;
     private int dx = 0, dy = 0;
-    private Color color;
+    private Color fill;
+    private Color line;
     private boolean selected = false;
 
-    Shape(int x, int y, Color color) {
+    Shape(int x, int y, Color fill, Color line) {
         this.x = x;
         this.y = y;
-        this.color = color;
+        this.fill = fill;
+        this.line = line;
     }
     
     @Override
@@ -93,16 +95,7 @@ public class Shape implements ShapeInderface {
                 y > getY() && y < (getY() + getHeight());
     }
 
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
+ 
     @Override
     public void select() {
         selected = true;
@@ -174,6 +167,35 @@ public class Shape implements ShapeInderface {
 
 	@Override
 	public void scaleTo(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Color getFillColor() {
+		return fill;
+	}
+
+	@Override
+	public Color getLineColor() {
+		return line;
+	}
+
+	@Override
+	public void setFillColor(Color color) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLineColor(Color color) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setAllColor(Color fill, Color line) {
 		// TODO Auto-generated method stub
 		
 	}

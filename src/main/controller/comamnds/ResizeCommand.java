@@ -1,14 +1,15 @@
 package main.controller.comamnds;
 
+
+
 import main.model.Editor;
-import main.model.ShapeInderface;
+import main.model.shapes.Point;
 import main.model.shapes.Shape;
 
 public class ResizeCommand implements Command{
 	private Editor editor;
-	private int startX, startY;
-	private int endX, endY;
-	
+
+	private Point start, end;
 	
 	public ResizeCommand(Editor editor) {
 		this.editor = editor;
@@ -17,12 +18,10 @@ public class ResizeCommand implements Command{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return "RESIZE SHAPE on positions -> start " +start + " end "+ end ;
+		}
 	public void start(int x, int y) {
-		startX = x;
-		startY = y;
+		start = new Point(x, y);
 		
 	}
 	public void scale(int x, int y) {
@@ -31,16 +30,27 @@ public class ResizeCommand implements Command{
 	
 	}
 	public void stop(int x, int y) {
-		endX = x;
-		endY = y;
+		end = new Point(x, y);
 	}
 
 	@Override
 	public void execute() {	
-		for(Shape target : editor.getSelected()) 
-			target.scaleTo(endX, endY);
 		
+		System.out.println(getName());
+		for(Shape target : editor.getSelected()) { 
+			target.scaleTo(end.getX() , end.getY());
+			editor.log(getName());
+		}
 	}
+
+	@Override
+    public boolean hasTarget() {
+    	return editor.getSelected().size() == 0 ? false : true;
+    }
+    
+
+
+
 
 }
 
