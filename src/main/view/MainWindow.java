@@ -43,6 +43,7 @@ public class MainWindow  extends JFrame{
 		add(toolBar);  
 		GroupLayout layout = new GroupLayout(frame);
 		frame.setLayout(layout);
+		
 		layout.setAutoCreateGaps(true);
 		layout.setHorizontalGroup(
 				   layout.createSequentialGroup()

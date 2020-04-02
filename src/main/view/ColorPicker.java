@@ -30,6 +30,7 @@ public class ColorPicker extends JPanel {
 
 		fillColor.setName("FILL");
 		lineColor.setName("LINE");
+		
 		eventManeger.subscribe("UPDATE FILL COLOR", new ColorPickerObserver(parent, "FILL"));
 		eventManeger.subscribe("UPDATE LINE COLOR", new ColorPickerObserver(parent, "LINE"));
 		

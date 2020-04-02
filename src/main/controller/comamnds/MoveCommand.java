@@ -49,8 +49,7 @@ public class MoveCommand implements Command {
     public void execute() {
     	System.out.print("MOVE SHAPES -> ");		
         for (ShapeInderface child : editor.getSelected()) {
-            child.moveBy(endX - startX, endY - startY);
-            System.out.println("("+ (endX - startX) + ","+ ""+( endY - startY) +")");
+            child.moveBy(endX - startX, endY - startY);            
             editor.log(getName());
         }
     }

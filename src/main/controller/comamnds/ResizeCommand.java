@@ -36,7 +36,6 @@ public class ResizeCommand implements Command{
 	@Override
 	public void execute() {	
 		
-		System.out.println(getName());
 		for(Shape target : editor.getSelected()) { 
 			target.scaleTo(end.getX() , end.getY());
 			editor.log(getName());

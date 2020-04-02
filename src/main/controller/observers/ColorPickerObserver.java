@@ -29,7 +29,7 @@ public class ColorPickerObserver implements Observer{
 			else if(type.contains("LINE"))
 				((TopToolBar)view).setCurrentLineColor(option);
 			
-			((TopToolBar)view).updateView();
+			
 		}
 	}
 

@@ -9,7 +9,6 @@ import main.model.shapes.Rectangle;
 
 public class CreateShapeCommand implements Command {
 	private Editor editor;
-	//private int startX, startY;
 	private Point firstPoint;
 	private Point secondPoint;
 	private Color fill;
@@ -44,6 +43,7 @@ public class CreateShapeCommand implements Command {
 			// shapeArray.add(new Triangle(firstPoint, secondPoint));
 			break;
 		case "RECTANGLE": editor.addShape(new Rectangle(firstPoint, secondPoint, this.fill, this.line));
+						  editor.log(getName());
 			break;
 		case "CIRCLE":
 			int a = secondPoint.getX() - firstPoint.getX();
@@ -64,8 +64,6 @@ public class CreateShapeCommand implements Command {
 		this.fill = fill;
 		this.line = line;
 		this.type = type;
-		System.out.println(this.line +""+ this.fill);
-		
 	}
 	
 	

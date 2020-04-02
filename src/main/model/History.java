@@ -18,9 +18,7 @@ public class History implements Serializable{
 	private int virtualSize = 0;
 
 	private class Pair implements Serializable {
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 2L;
 		Command command;
 		Memento memento;

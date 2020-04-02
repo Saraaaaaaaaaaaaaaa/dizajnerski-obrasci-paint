@@ -173,16 +173,16 @@ public class CustomPaintComponent extends Component {
 								if(editor.getSelected().size() == 0)
 									eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE DELETE MODIFY");								
 								if(editor.getSelected().size() == 1)
-									eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE  MODIFY");
+									eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE MODIFY");
 								if(editor.getSelected().size() > 1)
-									eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE  MODIFY");									
-								// lud zbunjenog
+									eventManeger.notifyObserver("MANAGING BUTTONS", "DISABLE MODIFY");									
+								
 							} else {
 								if (!ctrl)
 									editor.unSelect();
 								
 								target.select();
-								eventManeger.notifyObserver("MANAGING BUTTONS", "ENABLE DELETE MODIFY");
+								
 								if(ctrl)
 								{
 									if(editor.getSelected().size() == 0)
